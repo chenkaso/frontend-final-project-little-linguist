@@ -12,10 +12,11 @@
     <div *ngIf="selected">
       <p>Difficulty: {{ selected.gamediffculty }}</p>
       <p>Description: {{ selected.description }}</p>
+      <p>From a list of {{ games.length }} options</p>
     </div>
     <br />
   </div>
-  <div mat-dialog-actions>
+  <div mat-dialog-actions class="btn">
     <button
       mat-raised-button
       cdkFocusInitial
