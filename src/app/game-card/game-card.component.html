@@ -1,0 +1,13 @@
+<mat-card class="card-container">
+  <mat-card-title>
+    {{ currentCategory?.name }}
+    <mat-icon *ngIf="wasRecentlyUpdated()" class="star-icon">star</mat-icon>
+  </mat-card-title>
+  <mat-card-content
+    (click)="openGame(currentCategory?.id, currentCategory?.name)"
+  >
+    <div *ngIf="currentCategory?.words">
+      Words: {{ currentCategory?.words?.length }}
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,10 @@
+<h1 class="h1">Matching Games - {{ currentcategory?.name }}</h1>
+
+<div class="div1">
+  <div class="enwords">
+    <div (click)="SelectWord()" class="word" *ngFor="let word of englishGameWords">{{ word }}</div>
+  </div>
+  <div class="hewords">
+    <div class="word" *ngFor="let word of hebrewGameWords">{{ word }}</div>
+  </div>
+</div>

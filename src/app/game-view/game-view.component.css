@@ -1,0 +1,15 @@
+.team-view-container {
+  display: flex;
+  margin: 10px;
+  text-align: center;
+}
+.game-card{
+  margin: 10px;
+}
+.h1 {
+  text-align: center;
+  font-size: 50px;
+}
+.playButton {
+  text-align: center;
+}
