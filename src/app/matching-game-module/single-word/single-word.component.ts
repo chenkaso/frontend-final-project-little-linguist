@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Category } from '../../../shared/model/category';
 import { CategoriesService } from '../../services/categories.service';
 import { TranslatedWord } from '../../../shared/model/translated-word';
-import { WordStatus } from '../../matching-game-module/word-status';
+import { WordStatus } from '../word-status';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
