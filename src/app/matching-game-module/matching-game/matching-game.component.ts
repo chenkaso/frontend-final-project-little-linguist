@@ -3,8 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Category } from '../../../shared/model/category';
 import { TranslatedWord } from '../../../shared/model/translated-word';
 import { GamesDialogComponent } from '../../games-dialog/games-dialog.component';
-import { WordStatus } from '../word-status';
 import { CategoriesService } from '../../services/categories.service';
+import { WordStatus } from '../word-status';
 
 @Component({
   selector: 'app-matching-game',
@@ -14,7 +14,6 @@ import { CategoriesService } from '../../services/categories.service';
   imports: [CommonModule, GamesDialogComponent],
 })
 export class MatchingGameComponent implements OnInit {
-
   @Input()
   id?: string;
   currentcategory?: Category;
@@ -54,13 +53,13 @@ export class MatchingGameComponent implements OnInit {
   englishStatus: WordStatus[] = [];
   hebrewStatus: WordStatus[] = [];
 
-  SelectWord() {
-    for (let i of this.englishStatus)
-      if (this.englishStatus[i] == WordStatus.Selected) {
-        this.englishStatus = [];
-        this.englishStatus.push(WordStatus.Normal);
-        this.englishStatus[i] = WordStatus.Selected;
-      }
-    console.log(this.englishStatus);
+  SelectWord(clickIndex:number) {
+    let selectedIndex = this.englishStatus.findIndex(
+      (status: WordStatus) => status == WordStatus.Selected
+    );
+    if (selectedIndex > -1) {
+      this.englishStatus[selectedIndex] = WordStatus.Normal;
+    }
+    this.englishStatus[clickIndex] = WordStatus.Selected;
   }
 }

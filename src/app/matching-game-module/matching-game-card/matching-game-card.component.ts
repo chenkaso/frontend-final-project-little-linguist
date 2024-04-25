@@ -16,22 +16,10 @@ export class MatchingGameCardComponent {
 englishStatus : WordStatus[] = [];
 hebrewStatus : WordStatus[] = [];
 currentCategory?: Category
-for (let i = 0, i<this.WORDS_PER_GAME, ++i) {
- this.englishStatus[i] = WordStatus.Normal;
- this.hebrewStatus[i] = WordStatus.Normal;
-} 
 
-private previousSelectionIndex(selection: WordStatus[]) {
-  for (let i=0; i < selection.length; ++i) {
-  if (selection[i] == WordStatus.Selected) {
-  return i;
-  }
-  }
-  return -1;
- }
- private previousSelectionIndex(selection: WordStatus[]) {
-  return selection.findIndex(
-  (status: WordStatus) => status == WordStatus.Selected);
- }
- 
+//להגדיר אינפוט מסוג סטטוס
+//להגדיר מילה
+//להציג מילה בתוך קארד
+//לשנות צבע
+//לשלב את הקארד בתוך המשחק
 }
