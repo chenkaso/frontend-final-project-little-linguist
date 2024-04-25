@@ -13,9 +13,10 @@ import { ExitDialogComponent } from '../exit-dialog/exit-dialog.component';
   styleUrl: './exit.component.css',
 })
 export class ExitComponent {
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialogService: MatDialog) {}
 
   openExitDialog(): void {
-    const dialogRef = this.dialog.open(ExitDialogComponent);
+      let dialogRef = this.dialogService.open(ExitDialogComponent);
+  
+    }
   }
-}

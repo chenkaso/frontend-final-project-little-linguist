@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Category } from '../../shared/model/category';
 
 @Component({
   selector: 'app-messy-words',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './messy-words.component.css'
 })
 export class MessyWordsComponent {
-
+ @Input()
+  id?: string;
+  currentcategory?: Category;
 }

@@ -3,6 +3,7 @@ import { WordStatus } from '../word-status';
 import { Category } from '../../../shared/model/category';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { MatchingGameComponent } from '../matching-game/matching-game.component';
 
 @Component({
   selector: 'app-matching-game-card',

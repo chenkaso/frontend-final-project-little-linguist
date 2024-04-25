@@ -14,11 +14,11 @@ import { CategoriesService } from '../../services/categories.service';
   imports: [CommonModule, GamesDialogComponent],
 })
 export class MatchingGameComponent implements OnInit {
+
   @Input()
   id?: string;
   currentcategory?: Category;
   readonly WORDS_PER_GAME = 5;
-
   // חמש זוגות מילים
   gameWords: TranslatedWord[] = [];
 
