@@ -7,7 +7,7 @@ import { GameViewComponent } from './game-view/game-view.component';
 import { HelpPageComponent } from './help-page/help-page.component';
 import { MatchingGameComponent } from './matching-game-module/matching-game/matching-game.component';
 import { MessyWordsComponent } from './messy-words/messy-words.component';
-import { MatchWordDialogComponent } from './matching-game-module/match-word-dialog/match-word-dialog.component';
+import { MatchWordDialogComponent } from './matching-game-module/success-dialog/match-word-dialog.component';
 import { ExitDialogComponent } from './exit-dialog/exit-dialog.component';
 
 export const routes: Routes = [

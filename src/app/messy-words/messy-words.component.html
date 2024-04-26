@@ -1,4 +1,12 @@
-<div>
-  is {{ englishGameWords[wordIndex] }} part of the category
-  {{ currentcategory?.name }}?
+<div class="messyGame">
+  is word "{{ gameWords[wordIndex].origin }}" part of the category
+  "{{ currentcategory?.name }}"?
+</div>
+<div class="btns">
+  <div class="yesBtn">
+    <button mat-raised-button cdkFocusInitial color="primary" (click)="openSuccessDialog()">Yes</button>
+  </div>
+  <div class="noBtn">
+    <button mat-raised-button cdkFocusInitial color="primary">No</button>
+  </div>
 </div>
