@@ -1,12 +1,33 @@
-<div class="messyGame">
-  is word "{{ gameWords[wordIndex].origin }}" part of the category
-  "{{ currentcategory?.name }}"?
-</div>
-<div class="btns">
-  <div class="yesBtn">
-    <button mat-raised-button cdkFocusInitial color="primary" (click)="openSuccessDialog()">Yes</button>
+<div class="messyGame" *ngIf="!endGame">
+  <h1 class="h1">Word Sorter - {{ currentcategory?.name }}</h1>
+  is word "{{ gameWords[wordIndex].origin }}" part of the category "{{
+    currentcategory?.name
+  }}"?
+
+  <div class="btns">
+    <div class="yesBtn">
+      <button mat-raised-button color="primary" (click)="userGuess(true)">
+        Yes
+      </button>
+    </div>
+    <div class="noBtn">
+      <button mat-raised-button color="primary" (click)="userGuess(false)">
+        No
+      </button>
+    </div>
   </div>
-  <div class="noBtn">
-    <button mat-raised-button cdkFocusInitial color="primary">No</button>
+</div>
+<div *ngIf="endGame">
+  <h1 class="h1">Word Sorter - {{ currentcategory?.name }} - Results</h1>
+  <div class="results">
+    <div class="origin" *ngFor="let p of gameWords">Origin: {{ p.origin }}</div>
+    <div class="category" *ngFor="let c of resultCategory">{{ c.name }}</div>
+    <div class="guess" *ngFor="let g of guess">{{ g }}</div>
+    <mat-icon color="primary" *ngIf="this.guess[wordIndex] == true"
+      >check</mat-icon
+    >
+    <mat-icon color="warn" *ngIf="this.guess[wordIndex] == false"
+      >clear</mat-icon
+    >
   </div>
 </div>

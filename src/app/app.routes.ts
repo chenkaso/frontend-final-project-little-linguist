@@ -7,8 +7,6 @@ import { GameViewComponent } from './game-view/game-view.component';
 import { HelpPageComponent } from './help-page/help-page.component';
 import { MatchingGameComponent } from './matching-game-module/matching-game/matching-game.component';
 import { MessyWordsComponent } from './messy-words/messy-words.component';
-import { MatchWordDialogComponent } from './matching-game-module/success-dialog/match-word-dialog.component';
-import { ExitDialogComponent } from './exit-dialog/exit-dialog.component';
 
 export const routes: Routes = [
   { path: 'categories-list', component: CategoriesListComponent },
@@ -20,6 +18,4 @@ export const routes: Routes = [
   { path: 'help-page', component: HelpPageComponent },
   { path: '', component: DashboardComponent },
   { path: 'messy-words/:id', component: MessyWordsComponent },
-  { path: 'match-word-dialog', component: MatchWordDialogComponent },
-  { path: 'exit-dialog', component: ExitDialogComponent },
 ];

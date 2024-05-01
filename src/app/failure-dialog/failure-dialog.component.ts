@@ -8,7 +8,7 @@ import {
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-success-dialog',
+  selector: 'app-failure-dialog',
   standalone: true,
   imports: [
     MatButtonModule,
@@ -17,7 +17,7 @@ import { RouterLink } from '@angular/router';
     MatDialogClose,
     RouterLink,
   ],
-  templateUrl: './success-dialog.component.html',
-  styleUrl: './success-dialog.component.css',
+  templateUrl: './failure-dialog.component.html',
+  styleUrl: './failure-dialog.component.css',
 })
-export class SuccessDialogComponent {}
+export class FailureDialogComponent {}
