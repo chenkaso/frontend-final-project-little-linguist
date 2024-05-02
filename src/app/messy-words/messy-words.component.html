@@ -19,10 +19,19 @@
 </div>
 <div *ngIf="endGame">
   <h1 class="h1">Word Sorter - {{ currentcategory?.name }} - Results</h1>
+  <p>You classified {{ trueGuess }} out of 6 words correctly</p>
   <div class="results">
-    <div class="origin" *ngFor="let p of gameWords">Origin: {{ p.origin }}</div>
-    <div class="category" *ngFor="let c of resultCategory">{{ c.name }}</div>
-    <div class="guess" *ngFor="let g of guess">{{ g }}</div>
+    <table>
+      <tr>
+        <td *ngFor="let p of gameWords" class="origin">{{ p.origin }}</td>
+      </tr>
+      <tr>
+        <td *ngFor="let c of resultCategory" class="category">{{ c.name }}</td>
+      </tr>
+      <tr>
+        <td *ngFor="let g of guess" class="guess">{{ g }}</td>
+      </tr>
+    </table>
     <mat-icon color="primary" *ngIf="this.guess[wordIndex] == true"
       >check</mat-icon
     >

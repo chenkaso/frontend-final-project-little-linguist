@@ -2,17 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 import { Category } from '../../shared/model/category';
 import { TranslatedWord } from '../../shared/model/translated-word';
 import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
 import { CategoriesService } from '../services/categories.service';
 import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-messy-words',
   standalone: true,
-  imports: [CommonModule, MatButtonModule,MatIconModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatTableModule],
   templateUrl: './messy-words.component.html',
   styleUrl: './messy-words.component.css',
 })
@@ -26,13 +27,14 @@ export class MessyWordsComponent implements OnInit {
   randomIndex = 0;
   endGame = false;
   result: boolean[] = [];
-  guess: boolean[]=[];
-  resultCategory:Category[]=[];
+  guess: boolean[] = [];
+  resultCategory: Category[] = [];
+  message = '';
+  trueGuess=0;
 
   readonly WORDS_PER_GAME = 3;
   gameWords: TranslatedWord[] = [];
 
-  // לפרק זוגות
   englishGameWords: string[] = [];
   wordIndex = 0;
   constructor(
@@ -70,7 +72,6 @@ export class MessyWordsComponent implements OnInit {
         for (let i = 0; i < tenpWords.length; i++) {
           this.gameWords.push(tenpWords[i]);
         }
-
         this.randomCategory = randomCategory;
         this.resultCategory.push(this.randomCategory);
       }
@@ -88,7 +89,7 @@ export class MessyWordsComponent implements OnInit {
         ) > -1;
       this.result.push(rightAnswer == isPartOfCategoryGuess);
       this.guess.push(isPartOfCategoryGuess);
-      
+
       if (rightAnswer == isPartOfCategoryGuess) {
         //דיאלוג הצלחה ולעלות כמות נקודות
         let dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
@@ -105,5 +106,13 @@ export class MessyWordsComponent implements OnInit {
     if (this.wordIndex == this.gameWords.length) {
       this.endGame = true;
     }
+  }
+  countTrueGuess() {
+    for (let i = 0; i < this.guess.length; i++) {
+      if (this.guess[i] == true) {
+        this.trueGuess++;
+      }
+    }
+    console.log(this.trueGuess);
   }
 }

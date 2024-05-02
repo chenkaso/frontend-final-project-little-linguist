@@ -24,5 +24,14 @@
   font-family: "Times New Roman", Times, serif;
 }
 .results {
- display: flex;
+  display: flex;
+}
+.origin {
+  flex-direction: column;
+}
+.category {
+  flex-direction: column;
+}
+.guess {
+  flex-direction: column;
 }
