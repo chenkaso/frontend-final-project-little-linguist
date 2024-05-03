@@ -21,7 +21,14 @@ export class GameService {
       'Arrange The Letters Of The English Word In The Correct Order.',
       'messy-words'
     ),
-  ];
+    new GameProfile(
+      3,
+      'Mixed Letters Game',
+      GameDifficulty.easy,
+      'A game where for each word in the category we will present the word in Hebrew, and the letters of the word',
+      'mixed-letters'),
+
+];
   constructor() {}
 
   list(): GameProfile[] {

@@ -30,7 +30,7 @@ export class MessyWordsComponent implements OnInit {
   guess: boolean[] = [];
   resultCategory: Category[] = [];
   message = '';
-  trueGuess=0;
+  trueGuess = 0;
 
   readonly WORDS_PER_GAME = 3;
   gameWords: TranslatedWord[] = [];
@@ -108,11 +108,14 @@ export class MessyWordsComponent implements OnInit {
     }
   }
   countTrueGuess() {
+    let trueGuess = 0;
     for (let i = 0; i < this.guess.length; i++) {
       if (this.guess[i] == true) {
-        this.trueGuess++;
+        trueGuess++;
+        console.log(trueGuess);
+      } else {
+        trueGuess;
       }
     }
-    console.log(this.trueGuess);
   }
 }
