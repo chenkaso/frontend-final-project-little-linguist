@@ -3,11 +3,23 @@ import { CategoriesService } from '../services/categories.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Category } from '../../shared/model/category';
 import { TranslatedWord } from '../../shared/model/translated-word';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-mixed-letters',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule,
+    MatInputModule,
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+  ],
   templateUrl: './mixed-letters.component.html',
   styleUrl: './mixed-letters.component.css',
 })
@@ -21,6 +33,7 @@ export class MixedLettersComponent implements OnInit {
   englishGameWords: string[] = [];
   splitEnglish: string[] = [];
   wordLetters: string[] = [];
+  selected?: TranslatedWord;
   constructor(
     private categoryservice: CategoriesService,
     private SuccessDialogService: MatDialog,
@@ -48,5 +61,8 @@ export class MixedLettersComponent implements OnInit {
       console.log(shuffledWords);
       console.log(this.wordLetters);
     }
+  }
+  reset() {
+    this.selected?.guess == '';
   }
 }
