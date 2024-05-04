@@ -19,28 +19,40 @@
 </div>
 <div *ngIf="endGame">
   <h1 class="h1">Word Sorter - {{ currentcategory?.name }} - Results</h1>
-  <div *ngIf="countTrueGuess()">
-    You classified{{ countTrueGuess() }} out of 6 words correctly
-  </div>
-  <div class="results">
-    <table>
-      <tr>
-        <td *ngFor="let p of gameWords" class="origin">{{ p.origin }}</td>
-      </tr>
-      <tr>
-        <td *ngFor="let c of resultCategory" class="category">{{ c.name }}</td>
-      </tr>
-      <tr>
-        <td *ngFor="let g of guess" class="guess">{{ g }}</td>
-      </tr>
- <tr>
-    <td><mat-icon color="primary" *ngIf="this.guess[wordIndex] == true"
-      >check</mat-icon
-    >
-    <mat-icon color="warn" *ngIf="this.guess[wordIndex] == false"
-      >clear</mat-icon>
-    </td>
-    </tr>
-    </table>
-  </div>
+  <div>You classified {{ countTrueGuess() }} out of 6 words correctly</div>
+  <table mat-table [dataSource]="gameWords" class="mat-elevation-z8">
+    <ng-container matColumnDef="origin">
+      <th mat-header-cell *matHeaderCellDef>Origin</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        {{ dataSource[i].origin }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef="let element">
+        {{ currentcategory?.name }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="guess">
+      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        {{ guess[i] }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <mat-icon color="primary" *ngIf="this.guess[i] == true">check</mat-icon>
+        <mat-icon color="warn" *ngIf="this.guess[i] == false">clear</mat-icon>
+      </td>
+    </ng-container>
+    <tr
+      mat-header-row
+      *matHeaderRowDef="['origin', 'category', 'guess', 'actions']"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: ['origin', 'category', 'guess', 'actions']"
+    ></tr>
+  </table>
 </div>

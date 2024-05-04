@@ -23,15 +23,7 @@
   font-size: 60px;
   font-family: "Times New Roman", Times, serif;
 }
-.results {
-  display: flex;
-}
-.origin {
-  flex-direction: column;
-}
-.category {
-  flex-direction: column;
-}
-.guess {
-  flex-direction: column;
+table {
+  text-align: center;
+  width: 50%;
 }

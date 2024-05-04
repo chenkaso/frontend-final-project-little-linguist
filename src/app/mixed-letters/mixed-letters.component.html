@@ -1,3 +1,4 @@
+<p> Points:{{totalPoints}}</p>
 <p>{{ hebrewGameWords[wordIndex] }}</p>
 <p>{{ wordLetters }}</p>
 <form #categoryForm="ngForm">
@@ -5,28 +6,17 @@
     <mat-form-field>
       <mat-label>Guess:</mat-label>
       <input
-      class="input"
+        class="input"
         matInput
-        errorStateMatchern="word"
         required
         pattern="^[\u0020-\u007E]+$"
-        (value)="(selected)"
+        [(ngModel)]="selected"
+        name="Guess"
       />
     </mat-form-field>
   </div>
-  <button
-  type="submit"
-  mat-raised-button
-  color="primary"
-  [disabled]=""
->
-Submit
-</button>
-<button
-mat-raised-button
-color="primary"
-[disabled]=""
->
-Reset
-</button>
+  <button mat-raised-button color="primary" (click)="userGuess()">
+    Submit
+  </button>
+  <button mat-raised-button color="primary" (click)="reset()">Reset</button>
 </form>

@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
+import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
 
 @Component({
   selector: 'app-mixed-letters',
@@ -26,19 +28,34 @@ import { MatButtonModule } from '@angular/material/button';
 export class MixedLettersComponent implements OnInit {
   @Input()
   id?: string;
+  endGame = false;
   currentcategory?: Category;
   gameWords: TranslatedWord[] = [];
   hebrewGameWords: string[] = [];
   wordIndex = 0;
   englishGameWords: string[] = [];
   splitEnglish: string[] = [];
-  wordLetters: string[] = [];
-  selected?: TranslatedWord;
+  wordLetters: string = '';
+  selected?: string;
+  result: boolean[] = [];
+  guess: boolean[] = [];
+  totalPoints=0;
+  pointsPerWord=0;
+
+
   constructor(
     private categoryservice: CategoriesService,
     private SuccessDialogService: MatDialog,
     private FailureDialogService: MatDialog
   ) {}
+  shuffleString(str: string): string {
+    let charArray = str.split('');
+    for (let i = charArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [charArray[i], charArray[j]] = [charArray[j], charArray[i]];
+    }
+    return charArray.join('');
+  }
   ngOnInit(): void {
     this.currentcategory = this.categoryservice.get(parseInt(this.id!));
     if (this.currentcategory) {
@@ -51,18 +68,45 @@ export class MixedLettersComponent implements OnInit {
       this.hebrewGameWords.push(this.gameWords[i].target);
       this.englishGameWords.push(this.gameWords[i].origin);
     }
+    this.pointsPerWord = Math.floor(100/this.gameWords.length)
+  
     let splitEnglish = this.englishGameWords[this.wordIndex].split('');
     console.log(splitEnglish);
-    if (this.splitEnglish) {
-      let shuffledWords = [...this.splitEnglish].sort(
-        () => Math.random() - 0.5
-      );
-      this.wordLetters = shuffledWords;
-      console.log(shuffledWords);
+    if (splitEnglish) {
+      this.wordLetters = this.shuffleString(splitEnglish.join(''));
       console.log(this.wordLetters);
     }
   }
+
+  userGuess() {
+    let originlWord = this.englishGameWords[this.wordIndex];
+
+    if (this.selected == originlWord) {
+      let dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
+      dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
+      this.totalPoints+= this.pointsPerWord 
+    } else {
+      let dialogRef = this.FailureDialogService.open(FailureDialogComponent);
+      dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
+    }
+  }
+  afterDialogClose() {
+    this.wordIndex += 1;
+    if (this.wordIndex == this.gameWords.length) {
+      this.endGame = true;
+    } else {
+      let splitEnglish = this.englishGameWords[this.wordIndex].split('');
+      console.log(splitEnglish);
+      if (splitEnglish) {
+        this.wordLetters = this.shuffleString(splitEnglish.join(''));
+        console.log(this.wordLetters);
+      }
+      this.selected=''
+    }
+  }
   reset() {
-    this.selected?.guess == '';
+    if (this.selected) {
+      this.selected = '';
+    }
   }
 }

@@ -31,6 +31,8 @@ export class MessyWordsComponent implements OnInit {
   resultCategory: Category[] = [];
   message = '';
   trueGuess = 0;
+  displayedColumns: string[] = ['origin', 'category', 'guess','actions'];
+  dataSource: TranslatedWord[] = [];
 
   readonly WORDS_PER_GAME = 3;
   gameWords: TranslatedWord[] = [];
@@ -77,6 +79,7 @@ export class MessyWordsComponent implements OnInit {
       }
       for (let i = 0; i < this.gameWords.length; i++) {
         this.englishGameWords.push(this.gameWords[i].origin);
+        this.dataSource.push(this.gameWords[i]);
       }
     }
   }
@@ -91,7 +94,6 @@ export class MessyWordsComponent implements OnInit {
       this.guess.push(isPartOfCategoryGuess);
 
       if (rightAnswer == isPartOfCategoryGuess) {
-        //דיאלוג הצלחה ולעלות כמות נקודות
         let dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
         dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
       } else {
@@ -110,12 +112,11 @@ export class MessyWordsComponent implements OnInit {
   countTrueGuess() {
     let trueGuess = 0;
     for (let i = 0; i < this.guess.length; i++) {
-      if (this.guess[i] == true) {
+      if (this.guess[i] === true) {
         trueGuess++;
-        console.log(trueGuess);
-      } else {
-        trueGuess;
       }
     }
+    console.log(trueGuess);
+    return trueGuess;
   }
 }
