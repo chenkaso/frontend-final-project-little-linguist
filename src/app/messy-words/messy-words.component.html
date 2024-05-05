@@ -30,13 +30,14 @@
     <ng-container matColumnDef="category">
       <th mat-header-cell *matHeaderCellDef>Category</th>
       <td mat-cell *matCellDef="let element">
-        {{ resultCategory[wordIndex].name }}
+        {{ currentcategory?.name }}
       </td>
     </ng-container>
     <ng-container matColumnDef="guess">
       <th mat-header-cell *matHeaderCellDef>Guess</th>
       <td mat-cell *matCellDef="let element; let i = index">
-        {{ guess[i] }}
+        <p *ngIf="this.guess[i] == true">Yes</p>
+        <p *ngIf="this.guess[i] == false">No</p>
       </td>
     </ng-container>
     <ng-container matColumnDef="actions">

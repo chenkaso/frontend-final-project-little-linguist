@@ -48,6 +48,8 @@ export class MixedLettersComponent implements OnInit {
   displayedColumns: string[] = ['origin', 'target', 'actions'];
   dataSource: TranslatedWord[] = [];
   selectedWords: string[] = [];
+  showResult: boolean[] = [];
+  trueGuess = 0;
 
   constructor(
     private categoryservice: CategoriesService,
@@ -86,22 +88,16 @@ export class MixedLettersComponent implements OnInit {
 
   userGuess() {
     let originlWord = this.englishGameWords[this.wordIndex];
-   
+
     if (this.selected == originlWord) {
       let dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
       dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
       this.totalPoints += this.pointsPerWord;
-      
     } else {
       let dialogRef = this.FailureDialogService.open(FailureDialogComponent);
       dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
-      
     }
-    this.selectedWords.push();
   }
-  
-  
-
   afterDialogClose() {
     this.wordIndex += 1;
     if (this.wordIndex == this.gameWords.length) {
@@ -115,9 +111,8 @@ export class MixedLettersComponent implements OnInit {
       }
       this.selected = '';
     }
-    
   }
-  
+
   reset() {
     if (this.selected) {
       this.selected = '';
@@ -126,8 +121,10 @@ export class MixedLettersComponent implements OnInit {
 
   countTrueGuess() {
     let trueGuess = 0;
-    for (let i = 0; i < this.guess.length; i++) {
-      if (this.guess[i] === true) {
+    this.showResult = [];
+    for (let i = 0; i < this.englishGameWords.length; i++) {
+      if (this.selected === this.englishGameWords[i]) {
+        this.showResult.push(true);
         trueGuess++;
       }
     }
