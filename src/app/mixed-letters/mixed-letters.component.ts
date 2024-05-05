@@ -10,6 +10,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
 import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-mixed-letters',
@@ -21,6 +23,8 @@ import { FailureDialogComponent } from '../failure-dialog/failure-dialog.compone
     FormsModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatIconModule,
+    MatTableModule,
   ],
   templateUrl: './mixed-letters.component.html',
   styleUrl: './mixed-letters.component.css',
@@ -39,9 +43,11 @@ export class MixedLettersComponent implements OnInit {
   selected?: string;
   result: boolean[] = [];
   guess: boolean[] = [];
-  totalPoints=0;
-  pointsPerWord=0;
-
+  totalPoints = 0;
+  pointsPerWord = 0;
+  displayedColumns: string[] = ['origin', 'target', 'actions'];
+  dataSource: TranslatedWord[] = [];
+  selectedWords: string[] = [];
 
   constructor(
     private categoryservice: CategoriesService,
@@ -68,8 +74,8 @@ export class MixedLettersComponent implements OnInit {
       this.hebrewGameWords.push(this.gameWords[i].target);
       this.englishGameWords.push(this.gameWords[i].origin);
     }
-    this.pointsPerWord = Math.floor(100/this.gameWords.length)
-  
+    this.pointsPerWord = Math.floor(100 / this.gameWords.length);
+
     let splitEnglish = this.englishGameWords[this.wordIndex].split('');
     console.log(splitEnglish);
     if (splitEnglish) {
@@ -80,16 +86,22 @@ export class MixedLettersComponent implements OnInit {
 
   userGuess() {
     let originlWord = this.englishGameWords[this.wordIndex];
-
+   
     if (this.selected == originlWord) {
       let dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
       dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
-      this.totalPoints+= this.pointsPerWord 
+      this.totalPoints += this.pointsPerWord;
+      
     } else {
       let dialogRef = this.FailureDialogService.open(FailureDialogComponent);
       dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
+      
     }
+    this.selectedWords.push();
   }
+  
+  
+
   afterDialogClose() {
     this.wordIndex += 1;
     if (this.wordIndex == this.gameWords.length) {
@@ -101,12 +113,25 @@ export class MixedLettersComponent implements OnInit {
         this.wordLetters = this.shuffleString(splitEnglish.join(''));
         console.log(this.wordLetters);
       }
-      this.selected=''
+      this.selected = '';
     }
+    
   }
+  
   reset() {
     if (this.selected) {
       this.selected = '';
     }
+  }
+
+  countTrueGuess() {
+    let trueGuess = 0;
+    for (let i = 0; i < this.guess.length; i++) {
+      if (this.guess[i] === true) {
+        trueGuess++;
+      }
+    }
+    console.log(trueGuess);
+    return trueGuess;
   }
 }

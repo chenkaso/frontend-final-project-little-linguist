@@ -31,7 +31,7 @@ export class MessyWordsComponent implements OnInit {
   resultCategory: Category[] = [];
   message = '';
   trueGuess = 0;
-  displayedColumns: string[] = ['origin', 'category', 'guess','actions'];
+  displayedColumns: string[] = ['origin', 'category', 'guess', 'actions'];
   dataSource: TranslatedWord[] = [];
 
   readonly WORDS_PER_GAME = 3;
@@ -82,7 +82,9 @@ export class MessyWordsComponent implements OnInit {
         this.dataSource.push(this.gameWords[i]);
       }
     }
+    console.log(this.resultCategory[this.wordIndex]);
   }
+
   userGuess(isPartOfCategoryGuess: boolean) {
     if (this.currentcategory) {
       const rightAnswer =
