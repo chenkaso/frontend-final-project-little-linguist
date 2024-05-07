@@ -89,7 +89,7 @@ export class MixedLettersComponent implements OnInit {
   userGuess() {
     let originlWord = this.englishGameWords[this.wordIndex];
 
-    if (this.selected == originlWord) {
+    if (this.selected == originlWord && !this.endGame) {
       let dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
       dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
       this.totalPoints += this.pointsPerWord;
@@ -126,9 +126,11 @@ export class MixedLettersComponent implements OnInit {
       if (this.selected === this.englishGameWords[i]) {
         this.showResult.push(true);
         trueGuess++;
+      } else {
+        this.showResult.push(false);
       }
     }
-    console.log(trueGuess);
+    console.log(this.showResult);
     return trueGuess;
   }
 }

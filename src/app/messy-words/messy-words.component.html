@@ -1,3 +1,4 @@
+<div class="points">{{ totalPoints }}<mat-icon>monetization_on</mat-icon></div>
 <div class="messyGame" *ngIf="!endGame">
   <h1 class="h1">Word Sorter - {{ currentcategory?.name }}</h1>
   is word "{{ gameWords[wordIndex].origin }}" part of the category "{{
@@ -16,9 +17,11 @@
       </button>
     </div>
   </div>
+  <mat-progress-bar mode="determinate" [value]="wordsCount"></mat-progress-bar>
 </div>
 <div *ngIf="endGame">
   <h1 class="h1">Word Sorter - {{ currentcategory?.name }} - Results</h1>
+  <div>Grade:{{ totalPoints }}</div>
   <div>You classified {{ countTrueGuess() }} out of 6 words correctly</div>
   <table mat-table [dataSource]="gameWords" class="mat-elevation-z8">
     <ng-container matColumnDef="origin">
@@ -29,8 +32,13 @@
     </ng-container>
     <ng-container matColumnDef="category">
       <th mat-header-cell *matHeaderCellDef>Category</th>
-      <td mat-cell *matCellDef="let element">
-        {{ currentcategory?.name }}
+      <td mat-cell *matCellDef="let element; let i = index">
+        <div *ngIf="isCurrentCategory(gameWords[i].origin)">
+          {{ currentcategory?.name }}
+        </div>
+        <div *ngIf="!isCurrentCategory(gameWords[i].origin)">
+          {{ randomCategory?.name }}
+        </div>
       </td>
     </ng-container>
     <ng-container matColumnDef="guess">
