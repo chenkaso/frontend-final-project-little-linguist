@@ -44,7 +44,7 @@ export class MessyWordsComponent implements OnInit {
   readonly WORDS_PER_GAME = 3;
   gameWords: TranslatedWord[] = [];
   englishGameWords: string[] = [];
-  englishGameWordsNum: number[] = [];
+
   wordsCount = 0;
   wordIndex = 0;
   constructor(
@@ -81,7 +81,6 @@ export class MessyWordsComponent implements OnInit {
           this.gameWords.push(tenpWords[i]);
         }
         this.randomCategory = randomCategory;
-
       }
       for (let i = 0; i < this.gameWords.length; i++) {
         this.englishGameWords.push(this.gameWords[i].origin);
@@ -89,7 +88,6 @@ export class MessyWordsComponent implements OnInit {
       }
       this.pointsPerWord = Math.floor(100 / this.gameWords.length);
     }
-    
   }
 
   userGuess(isPartOfCategoryGuess: boolean) {
@@ -131,13 +129,11 @@ export class MessyWordsComponent implements OnInit {
     return trueGuess;
   }
   progressBar() {
-    let wordsCount = 0;
-    for (let i = 0; i < this.englishGameWords.length; i++) {
-      if (this.englishGameWords[i]) {
-        wordsCount++ * 100;
-      }
-    }
+    console.log(this.gameWords.length);
+    console.log((100 / this.gameWords.length) * this.wordIndex);
+    return (100 / this.gameWords.length) * this.wordIndex;
   }
+
   isCurrentCategory(gameWord: string): boolean {
     if (!this.currentcategory) {
       return false;

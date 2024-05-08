@@ -12,6 +12,7 @@ import { SuccessDialogComponent } from '../success-dialog/success-dialog.compone
 import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-mixed-letters',
@@ -25,6 +26,8 @@ import { MatTableModule } from '@angular/material/table';
     MatButtonModule,
     MatIconModule,
     MatTableModule,
+    MatProgressBarModule
+
   ],
   templateUrl: './mixed-letters.component.html',
   styleUrl: './mixed-letters.component.css',
@@ -132,5 +135,10 @@ export class MixedLettersComponent implements OnInit {
     }
     console.log(this.showResult);
     return trueGuess;
+  }
+  progressBar() {
+    console.log(this.gameWords.length);
+    console.log((100 / this.gameWords.length) * this.wordIndex);
+    return (100 / this.gameWords.length) * this.wordIndex;
   }
 }
