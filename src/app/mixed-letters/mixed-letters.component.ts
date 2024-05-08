@@ -13,6 +13,7 @@ import { TranslatedWord } from '../../shared/model/translated-word';
 import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
 import { CategoriesService } from '../services/categories.service';
 import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-mixed-letters',
@@ -26,7 +27,8 @@ import { SuccessDialogComponent } from '../success-dialog/success-dialog.compone
     MatButtonModule,
     MatIconModule,
     MatTableModule,
-    MatProgressBarModule,
+    MatProgressBarModule
+
   ],
   templateUrl: './mixed-letters.component.html',
   styleUrl: './mixed-letters.component.css',

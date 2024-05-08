@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { GamePlayed } from '../../shared/model/gameplayed';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PointsService {
   private readonly Games_KEY = 'games';
@@ -15,7 +14,7 @@ export class PointsService {
       return (JSON.parse(pointsString));
     }
   }
-  list() : GamePlayed[] {
+  list(): GamePlayed[] {
     return Array.from(this.getPoints().values());
   }
   private setPoints(list : GamePlayed[]) : void {
