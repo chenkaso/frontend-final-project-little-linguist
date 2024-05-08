@@ -7,24 +7,24 @@ import { GamePlayed } from '../../shared/model/gameplayed';
 })
 export class PointsService {
   private readonly Games_KEY = 'games';
-  private getPoints() : Map<number , GamePlayed>{
+  private getPoints() : GamePlayed[]{
     let pointsString = localStorage.getItem(this.Games_KEY);
     if (!pointsString) {
-      return new Map<number, GamePlayed>();
+      return [];
     } else {
-      return new Map<number, GamePlayed>(JSON.parse(pointsString));
+      return (JSON.parse(pointsString));
     }
   }
   list() : GamePlayed[] {
     return Array.from(this.getPoints().values());
   }
-  private setPoints(list : Map<number, GamePlayed>) : void {
+  private setPoints(list : GamePlayed[]) : void {
     localStorage.setItem(this.Games_KEY, JSON.stringify(Array.from(list)));
   }
   add(game : GamePlayed) : void {
-    let pointsMap = this.getPoints();
-    pointsMap.set(game.gameId, game);
+    let pointsList = this.getPoints();
+    pointsList.push(game);
 
-    this.setPoints(pointsMap);
+    this.setPoints(pointsList);
     }
 }

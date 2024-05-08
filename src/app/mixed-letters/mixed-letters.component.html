@@ -24,6 +24,10 @@
     </button>
     <button mat-raised-button color="primary" (click)="reset()">Reset</button>
   </form>
+  <mat-progress-bar
+    mode="determinate"
+    [value]="progressBar()"
+  ></mat-progress-bar>
 </div>
 <div *ngIf="endGame">
   <h1 class="h1">Word Sorter - {{ currentcategory?.name }} - Results</h1>
