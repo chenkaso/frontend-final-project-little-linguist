@@ -17,10 +17,12 @@
       </button>
     </div>
   </div>
+  <div class="progress-bar-div">
   <mat-progress-bar
     mode="determinate"
     [value]="progressBar()"
   ></mat-progress-bar>
+  </div>
 </div>
 <div *ngIf="endGame">
   <h1 class="h1">Word Sorter - {{ currentcategory?.name }} - Results</h1>

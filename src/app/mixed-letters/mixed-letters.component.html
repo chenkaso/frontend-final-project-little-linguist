@@ -19,15 +19,19 @@
         />
       </mat-form-field>
     </div>
+     <div class="buttons-div">
     <button mat-raised-button color="primary" (click)="userGuess()">
       Submit
     </button>
     <button mat-raised-button color="primary" (click)="reset()">Reset</button>
-  </form>
-  <mat-progress-bar
-    mode="determinate"
-    [value]="progressBar()"
-  ></mat-progress-bar>
+  </div>
+  <div class="progress-bar-div">
+    <mat-progress-bar
+      mode="determinate"
+      [value]="progressBar()"
+    ></mat-progress-bar>
+  </div>
+</form>
 </div>
 
 <div *ngIf="endGame">
@@ -50,7 +54,9 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element; let i = index">
-        <mat-icon color="primary" *ngIf="this.result[i] == true">check</mat-icon>
+        <mat-icon color="primary" *ngIf="this.result[i] == true"
+          >check</mat-icon
+        >
         <mat-icon color="warn" *ngIf="this.result[i] == false">clear</mat-icon>
       </td>
     </ng-container>
