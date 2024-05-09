@@ -2,3 +2,9 @@ h1 {
   text-align: center;
   font-family: "Times New Roman", Times, serif;
 }
+.des-view-container {
+  display: flex;
+  justify-content: center;
+  display: flex;
+  font-family: "Poppins", sans-serif;
+}

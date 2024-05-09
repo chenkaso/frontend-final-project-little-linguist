@@ -6,9 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
 import { Category } from '../../shared/model/category';
+import { GamePlayed } from '../../shared/model/gameplayed';
 import { TranslatedWord } from '../../shared/model/translated-word';
 import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
 import { CategoriesService } from '../services/categories.service';
+import { PointsService } from '../services/points.service';
 import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
 
 @Component({
@@ -50,12 +52,13 @@ export class MessyWordsComponent implements OnInit {
   constructor(
     private categoryservice: CategoriesService,
     private SuccessDialogService: MatDialog,
-    private FailureDialogService: MatDialog
+    private FailureDialogService: MatDialog,
+    private PointsService: PointsService
   ) {}
   ngOnInit(): void {
     this.currentcategory = this.categoryservice.get(parseInt(this.id!));
     if (this.currentcategory) {
-      let shuffledWords = [...this.currentcategory?.words].sort(
+      const shuffledWords = [...this.currentcategory?.words].sort(
         () => Math.random() - 0.5
       );
       this.gameWords = shuffledWords.splice(0, 3);
@@ -67,13 +70,13 @@ export class MessyWordsComponent implements OnInit {
 
     this.allCategories = this.categoryservice.list();
     if (this.allCategories.length > 0) {
-      let randomCategoryIndex = Math.floor(
+      const randomCategoryIndex = Math.floor(
         Math.random() * this.allCategories.length
       );
-      let randomCategory = this.allCategories[randomCategoryIndex];
+      const randomCategory = this.allCategories[randomCategoryIndex];
 
       if (randomCategory) {
-        let shuffledWords = [...randomCategory?.words].sort(
+        const shuffledWords = [...randomCategory?.words].sort(
           () => Math.random() - 0.5
         );
         const tenpWords = shuffledWords.slice(0, 3);
@@ -100,11 +103,11 @@ export class MessyWordsComponent implements OnInit {
       this.result.push(rightAnswer === isPartOfCategoryGuess);
       this.guess.push(isPartOfCategoryGuess);
       if (rightAnswer === isPartOfCategoryGuess) {
-        let dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
+        const dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
         dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
         this.totalPoints += this.pointsPerWord;
       } else {
-        let dialogRef = this.FailureDialogService.open(FailureDialogComponent);
+        const dialogRef = this.FailureDialogService.open(FailureDialogComponent);
         dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
       }
     }
@@ -115,6 +118,14 @@ export class MessyWordsComponent implements OnInit {
 
       if (this.wordIndex === this.gameWords.length) {
         this.endGame = true;
+        this.PointsService.add(
+          new GamePlayed(
+            this.currentcategory?.id ?? 0,
+            3,
+            new Date(),
+            this.totalPoints
+          )
+        );
       }
     }
   }

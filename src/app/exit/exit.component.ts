@@ -16,7 +16,7 @@ export class ExitComponent {
   constructor(private dialogService: MatDialog) {}
 
   openExitDialog(): void {
-      let dialogRef = this.dialogService.open(ExitDialogComponent);
+      const dialogRef = this.dialogService.open(ExitDialogComponent);
   
     }
   }

@@ -9,11 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
 import { Category } from '../../shared/model/category';
+import { GamePlayed } from '../../shared/model/gameplayed';
 import { TranslatedWord } from '../../shared/model/translated-word';
 import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
 import { CategoriesService } from '../services/categories.service';
+import { PointsService } from '../services/points.service';
 import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-mixed-letters',
@@ -27,8 +28,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatButtonModule,
     MatIconModule,
     MatTableModule,
-    MatProgressBarModule
-
+    MatProgressBarModule,
   ],
   templateUrl: './mixed-letters.component.html',
   styleUrl: './mixed-letters.component.css',
@@ -58,10 +58,11 @@ export class MixedLettersComponent implements OnInit {
   constructor(
     private categoryservice: CategoriesService,
     private SuccessDialogService: MatDialog,
-    private FailureDialogService: MatDialog
+    private FailureDialogService: MatDialog,
+    private PointsService: PointsService,
   ) {}
   shuffleString(str: string): string {
-    let charArray = str.split('');
+    const charArray = str.split('');
     for (let i = charArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [charArray[i], charArray[j]] = [charArray[j], charArray[i]];
@@ -71,7 +72,7 @@ export class MixedLettersComponent implements OnInit {
   ngOnInit(): void {
     this.currentcategory = this.categoryservice.get(parseInt(this.id!));
     if (this.currentcategory) {
-      let shuffledWords = [...this.currentcategory?.words].sort(
+      const shuffledWords = [...this.currentcategory?.words].sort(
         () => Math.random() - 0.5
       );
       this.gameWords = shuffledWords;
@@ -82,7 +83,7 @@ export class MixedLettersComponent implements OnInit {
     }
     this.pointsPerWord = Math.floor(100 / this.gameWords.length);
 
-    let splitEnglish = this.englishGameWords[this.wordIndex].split('');
+    const splitEnglish = this.englishGameWords[this.wordIndex].split('');
     console.log(splitEnglish);
     if (splitEnglish) {
       this.wordLetters = this.shuffleString(splitEnglish.join(''));
@@ -91,14 +92,16 @@ export class MixedLettersComponent implements OnInit {
   }
 
   userGuess() {
-    let originlWord = this.englishGameWords[this.wordIndex];
+    const originlWord = this.englishGameWords[this.wordIndex];
 
     if (this.selected == originlWord && !this.endGame) {
-      let dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
+      this.result.push(true);
+      const dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
       dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
       this.totalPoints += this.pointsPerWord;
     } else {
-      let dialogRef = this.FailureDialogService.open(FailureDialogComponent);
+      this.result.push(false);
+      const dialogRef = this.FailureDialogService.open(FailureDialogComponent);
       dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
     }
   }
@@ -106,8 +109,9 @@ export class MixedLettersComponent implements OnInit {
     this.wordIndex += 1;
     if (this.wordIndex == this.gameWords.length) {
       this.endGame = true;
+      this.PointsService.add(new GamePlayed(this.currentcategory?.id ?? 0,4,new Date(),this.totalPoints));
     } else {
-      let splitEnglish = this.englishGameWords[this.wordIndex].split('');
+      const splitEnglish = this.englishGameWords[this.wordIndex].split('');
       console.log(splitEnglish);
       if (splitEnglish) {
         this.wordLetters = this.shuffleString(splitEnglish.join(''));

@@ -3,9 +3,7 @@
     {{ currentCategory?.name }}
     <mat-icon *ngIf="wasRecentlyUpdated()" class="star-icon">star</mat-icon>
   </mat-card-title>
-  <mat-card-content
-    (click)="openGame(currentCategory?.id, currentCategory?.name)"
-  >
+  <mat-card-content (click)="openGame(currentCategory?.id)">
     <div *ngIf="currentCategory?.words">
       Words: {{ currentCategory?.words?.length }}
     </div>
