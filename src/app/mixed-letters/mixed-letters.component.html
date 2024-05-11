@@ -19,25 +19,26 @@
         />
       </mat-form-field>
     </div>
-     <div class="buttons-div">
-    <button mat-raised-button color="primary" (click)="userGuess()">
-      Submit
-    </button>
-    <button mat-raised-button color="primary" (click)="reset()">Reset</button>
-  </div>
-  <div class="progress-bar-div">
-    <mat-progress-bar
-      mode="determinate"
-      [value]="progressBar()"
-    ></mat-progress-bar>
-  </div>
-</form>
+    <div class="buttons-div">
+      <button mat-raised-button color="primary" (click)="userGuess()">
+        Submit
+      </button>
+      <button mat-raised-button color="primary" (click)="reset()">Reset</button>
+    </div>
+    <div class="progress-bar-div">
+      <mat-progress-bar
+        mode="determinate"
+        [value]="progressBar()"
+      ></mat-progress-bar>
+    </div>
+  </form>
 </div>
 
 <div *ngIf="endGame">
-  <h1 class="h1">Word Sorter - {{ currentcategory?.name }} - Results</h1>
+  <h1 class="h1">Mixed Letters - {{ currentcategory?.name }} - Results</h1>
   <div>Grade: {{ totalPoints }}</div>
-  <div>You classified {{ countTrueGuess() }} out of 6 words correctly</div>
+
+  <div>You classified {{ trueGuess }} out of 6 words correctly</div>
   <table mat-table [dataSource]="gameWords" class="mat-elevation-z8">
     <ng-container matColumnDef="origin">
       <th mat-header-cell *matHeaderCellDef>Origin</th>

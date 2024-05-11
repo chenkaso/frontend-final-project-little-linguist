@@ -59,7 +59,7 @@ export class MixedLettersComponent implements OnInit {
     private categoryservice: CategoriesService,
     private SuccessDialogService: MatDialog,
     private FailureDialogService: MatDialog,
-    private PointsService: PointsService,
+    private PointsService: PointsService
   ) {}
   shuffleString(str: string): string {
     const charArray = str.split('');
@@ -109,7 +109,14 @@ export class MixedLettersComponent implements OnInit {
     this.wordIndex += 1;
     if (this.wordIndex == this.gameWords.length) {
       this.endGame = true;
-      this.PointsService.add(new GamePlayed(this.currentcategory?.id ?? 0,4,new Date(),this.totalPoints));
+      this.PointsService.add(
+        new GamePlayed(
+          this.currentcategory?.id ?? 0,
+          4,
+          new Date(),
+          this.totalPoints
+        )
+      );
     } else {
       const splitEnglish = this.englishGameWords[this.wordIndex].split('');
       console.log(splitEnglish);
@@ -138,9 +145,10 @@ export class MixedLettersComponent implements OnInit {
         this.showResult.push(false);
       }
     }
-    console.log(this.showResult);
+  
     return trueGuess;
   }
+
   progressBar() {
     console.log(this.gameWords.length);
     console.log((100 / this.gameWords.length) * this.wordIndex);

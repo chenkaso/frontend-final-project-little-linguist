@@ -26,6 +26,7 @@ import { SuccessDialogComponent } from '../success-dialog/success-dialog.compone
   templateUrl: './messy-words.component.html',
   styleUrl: './messy-words.component.css',
 })
+//The name of the component doesn't fit the game because at first we tried to make another game with this component and we thought we could easily change the name afterwards but we couldn't
 export class MessyWordsComponent implements OnInit {
   @Input()
   id?: string;
@@ -103,11 +104,15 @@ export class MessyWordsComponent implements OnInit {
       this.result.push(rightAnswer === isPartOfCategoryGuess);
       this.guess.push(isPartOfCategoryGuess);
       if (rightAnswer === isPartOfCategoryGuess) {
-        const dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
+        const dialogRef = this.SuccessDialogService.open(
+          SuccessDialogComponent
+        );
         dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
         this.totalPoints += this.pointsPerWord;
       } else {
-        const dialogRef = this.FailureDialogService.open(FailureDialogComponent);
+        const dialogRef = this.FailureDialogService.open(
+          FailureDialogComponent
+        );
         dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
       }
     }
