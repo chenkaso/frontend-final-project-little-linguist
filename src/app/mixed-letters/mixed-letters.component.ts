@@ -15,6 +15,7 @@ import { FailureDialogComponent } from '../failure-dialog/failure-dialog.compone
 import { CategoriesService } from '../services/categories.service';
 import { PointsService } from '../services/points.service';
 import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
+import { TimerComponent } from '../timer/timer.component';
 
 @Component({
   selector: 'app-mixed-letters',
@@ -29,6 +30,7 @@ import { SuccessDialogComponent } from '../success-dialog/success-dialog.compone
     MatIconModule,
     MatTableModule,
     MatProgressBarModule,
+    TimerComponent,
   ],
   templateUrl: './mixed-letters.component.html',
   styleUrl: './mixed-letters.component.css',
@@ -54,12 +56,15 @@ export class MixedLettersComponent implements OnInit {
   selectedWords: string[] = [];
   showResult: boolean[] = [];
   trueGuess = 0;
+  readonly SEC_PER_GAME = 180;
+  gameTime = 0;
+  timeLeft = 0;
 
   constructor(
     private categoryservice: CategoriesService,
     private SuccessDialogService: MatDialog,
     private FailureDialogService: MatDialog,
-    private PointsService: PointsService,
+    private PointsService: PointsService
   ) {}
   shuffleString(str: string): string {
     const charArray = str.split('');
@@ -109,7 +114,16 @@ export class MixedLettersComponent implements OnInit {
     this.wordIndex += 1;
     if (this.wordIndex == this.gameWords.length) {
       this.endGame = true;
-      this.PointsService.add(new GamePlayed(this.currentcategory?.id ?? 0,4,new Date(),this.totalPoints));
+      this.PointsService.add(
+        new GamePlayed(
+          this.currentcategory?.id ?? 0,
+          4,
+          new Date(),
+          this.totalPoints,
+          0,
+          0
+        )
+      );
     } else {
       const splitEnglish = this.englishGameWords[this.wordIndex].split('');
       console.log(splitEnglish);
@@ -145,5 +159,11 @@ export class MixedLettersComponent implements OnInit {
     console.log(this.gameWords.length);
     console.log((100 / this.gameWords.length) * this.wordIndex);
     return (100 / this.gameWords.length) * this.wordIndex;
+  }
+  gameTimeChange(eventTime: number) {
+    this.gameTime = eventTime;
+  }
+  reportTimeLeft() {
+    this.timeLeft = this.gameTime
   }
 }

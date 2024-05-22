@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, PipeTransform } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +12,7 @@ import { FailureDialogComponent } from '../failure-dialog/failure-dialog.compone
 import { CategoriesService } from '../services/categories.service';
 import { PointsService } from '../services/points.service';
 import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
+import { TimerComponent } from '../timer/timer.component';
 
 @Component({
   selector: 'app-messy-words',
@@ -22,6 +23,7 @@ import { SuccessDialogComponent } from '../success-dialog/success-dialog.compone
     MatIconModule,
     MatTableModule,
     MatProgressBarModule,
+    TimerComponent,
   ],
   templateUrl: './messy-words.component.html',
   styleUrl: './messy-words.component.css',
@@ -46,6 +48,8 @@ export class MessyWordsComponent implements OnInit {
   readonly WORDS_PER_GAME = 3;
   gameWords: TranslatedWord[] = [];
   englishGameWords: string[] = [];
+  readonly SEC_PER_GAME = 60;
+  gameTime = 0;
 
   wordsCount = 0;
   wordIndex = 0;
@@ -55,6 +59,7 @@ export class MessyWordsComponent implements OnInit {
     private FailureDialogService: MatDialog,
     private PointsService: PointsService
   ) {}
+
   ngOnInit(): void {
     this.currentcategory = this.categoryservice.get(parseInt(this.id!));
     if (this.currentcategory) {
@@ -103,11 +108,15 @@ export class MessyWordsComponent implements OnInit {
       this.result.push(rightAnswer === isPartOfCategoryGuess);
       this.guess.push(isPartOfCategoryGuess);
       if (rightAnswer === isPartOfCategoryGuess) {
-        const dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
+        const dialogRef = this.SuccessDialogService.open(
+          SuccessDialogComponent
+        );
         dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
         this.totalPoints += this.pointsPerWord;
       } else {
-        const dialogRef = this.FailureDialogService.open(FailureDialogComponent);
+        const dialogRef = this.FailureDialogService.open(
+          FailureDialogComponent
+        );
         dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
       }
     }
@@ -123,7 +132,7 @@ export class MessyWordsComponent implements OnInit {
             this.currentcategory?.id ?? 0,
             3,
             new Date(),
-            this.totalPoints
+            this.totalPoints,0,0
           )
         );
       }
@@ -154,5 +163,8 @@ export class MessyWordsComponent implements OnInit {
         (word: TranslatedWord) => word.origin === gameWord
       ) > -1;
     return rightAnswer;
+  }
+  gameTimeChange(eventTime: number) {
+    this.gameTime = eventTime;
   }
 }

@@ -1,5 +1,9 @@
 <div class="points">{{ totalPoints }}<mat-icon>monetization_on</mat-icon></div>
 <div class="messyGame" *ngIf="!endGame">
+  <app-timer
+    (gameTimer)="gameTimeChange($event)"
+    [totalTime]="SEC_PER_GAME"
+  ></app-timer>
   <h1 class="h1">Word Sorter - {{ currentcategory?.name }}</h1>
   is word "{{ gameWords[wordIndex].origin }}" part of the category "{{
     currentcategory?.name
@@ -18,10 +22,10 @@
     </div>
   </div>
   <div class="progress-bar-div">
-  <mat-progress-bar
-    mode="determinate"
-    [value]="progressBar()"
-  ></mat-progress-bar>
+    <mat-progress-bar
+      mode="determinate"
+      [value]="progressBar()"
+    ></mat-progress-bar>
   </div>
 </div>
 <div *ngIf="endGame">

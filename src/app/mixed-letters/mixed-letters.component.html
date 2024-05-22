@@ -2,6 +2,10 @@
   <div class="points">
     {{ totalPoints }}<mat-icon>monetization_on</mat-icon>
   </div>
+  <app-timer
+    (gameTimer)="gameTimeChange($event)"
+    [totalTime]="SEC_PER_GAME"
+  ></app-timer>
   <h1 class="h1">Word Sorter - {{ currentcategory?.name }}</h1>
   <p>{{ hebrewGameWords[wordIndex] }}</p>
   <p>{{ wordLetters }}</p>

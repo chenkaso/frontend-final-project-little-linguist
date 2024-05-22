@@ -1,10 +1,12 @@
-import {GameProfile } from './gameprofile';
+import { GameProfile } from './gameprofile';
 
-export class GamePlayed{
+export class GamePlayed {
   constructor(
     public categoryId: number,
-    public gameId:  GameProfile["id"],
+    public gameId: GameProfile['id'],
     public date: Date,
-    public points: number
-  ){}
+    public points: number,
+    public secondsLeftInGame: number,
+    public secondsPlayed: number
+  ) {}
 }
