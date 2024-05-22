@@ -152,9 +152,10 @@ export class MixedLettersComponent implements OnInit {
         this.showResult.push(false);
       }
     }
-    console.log(this.showResult);
+  
     return trueGuess;
   }
+
   progressBar() {
     console.log(this.gameWords.length);
     console.log((100 / this.gameWords.length) * this.wordIndex);

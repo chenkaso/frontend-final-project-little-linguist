@@ -28,6 +28,7 @@ import { TimerComponent } from '../timer/timer.component';
   templateUrl: './messy-words.component.html',
   styleUrl: './messy-words.component.css',
 })
+//The name of the component doesn't fit the game because at first we tried to make another game with this component and we thought we could easily change the name afterwards but we couldn't
 export class MessyWordsComponent implements OnInit {
   @Input()
   id?: string;
