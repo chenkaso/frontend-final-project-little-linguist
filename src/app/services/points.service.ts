@@ -1,29 +1,57 @@
 import { Injectable } from '@angular/core';
+import {
+  DocumentSnapshot,
+  Firestore,
+  QuerySnapshot,
+  addDoc,
+  collection,
+  getDocs,
+} from '@angular/fire/firestore';
 import { GamePlayed } from '../../shared/model/gameplayed';
+import { pointsConverter } from './converters/points-converter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PointsService {
+  constructor(private firestoreService: Firestore) {}
+
   private readonly Games_KEY = 'games';
-  private getPoints() : GamePlayed[]{
+
+  private getPoints(): GamePlayed[] {
     const pointsString = localStorage.getItem(this.Games_KEY);
     if (!pointsString) {
       return [];
     } else {
-      return (JSON.parse(pointsString));
+      return JSON.parse(pointsString);
     }
   }
-  list(): GamePlayed[] {
-    return Array.from(this.getPoints().values());
+  async list(): Promise<GamePlayed[]> {
+    const collectionConnection = collection(
+      this.firestoreService,
+      'gamePlayed'
+    ).withConverter(pointsConverter);
+    const querySnapshot: QuerySnapshot<GamePlayed> = await getDocs(
+      collectionConnection
+    );
+    const result: GamePlayed[] = [];
+    querySnapshot.docs.forEach((docSnap: DocumentSnapshot<GamePlayed>) => {
+      const data = docSnap.data();
+      if (data) {
+        result.push(data);
+      }
+    });
+    return result;
   }
-  private setPoints(list : GamePlayed[]) : void {
+  private setPoints(list: GamePlayed[]): void {
     localStorage.setItem(this.Games_KEY, JSON.stringify(Array.from(list)));
   }
-  add(game : GamePlayed) : void {
-    const pointsList = this.getPoints();
-    pointsList.push(game);
-
-    this.setPoints(pointsList);
-    }
+  async add(game: GamePlayed) {
+    await addDoc(
+      collection(this.firestoreService, 'gamePlayed').withConverter(
+        pointsConverter
+      ),
+      game
+    );
+  }
 }

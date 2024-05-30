@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, PipeTransform } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,7 +28,6 @@ import { TimerComponent } from '../timer/timer.component';
   templateUrl: './messy-words.component.html',
   styleUrl: './messy-words.component.css',
 })
-//The name of the component doesn't fit the game because at first we tried to make another game with this component and we thought we could easily change the name afterwards but we couldn't
 export class MessyWordsComponent implements OnInit {
   @Input()
   id?: string;
@@ -51,6 +50,8 @@ export class MessyWordsComponent implements OnInit {
   englishGameWords: string[] = [];
   readonly SEC_PER_GAME = 60;
   gameTime = 0;
+  timeLeft = 0;
+  isLoadingDone = false;
 
   wordsCount = 0;
   wordIndex = 0;
@@ -62,7 +63,9 @@ export class MessyWordsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.currentcategory = this.categoryservice.get(parseInt(this.id!));
+    this.categoryservice
+      .get(this.id!)
+      .then((result) => (this.currentcategory = result));
     if (this.currentcategory) {
       const shuffledWords = [...this.currentcategory?.words].sort(
         () => Math.random() - 0.5
@@ -74,29 +77,32 @@ export class MessyWordsComponent implements OnInit {
       this.englishGameWords.push(this.gameWords[i].origin);
     }
 
-    this.allCategories = this.categoryservice.list();
-    if (this.allCategories.length > 0) {
-      const randomCategoryIndex = Math.floor(
-        Math.random() * this.allCategories.length
-      );
-      const randomCategory = this.allCategories[randomCategoryIndex];
-
-      if (randomCategory) {
-        const shuffledWords = [...randomCategory?.words].sort(
-          () => Math.random() - 0.5
+    this.categoryservice.list().then((result) => {
+      this.allCategories = result;
+      if (this.allCategories.length > 0) {
+        const randomCategoryIndex = Math.floor(
+          Math.random() * this.allCategories.length
         );
-        const tenpWords = shuffledWords.slice(0, 3);
-        for (let i = 0; i < tenpWords.length; i++) {
-          this.gameWords.push(tenpWords[i]);
+        const randomCategory = this.allCategories[randomCategoryIndex];
+
+        if (randomCategory) {
+          const shuffledWords = [...randomCategory?.words].sort(
+            () => Math.random() - 0.5
+          );
+          const tenpWords = shuffledWords.slice(0, 3);
+          for (let i = 0; i < tenpWords.length; i++) {
+            this.gameWords.push(tenpWords[i]);
+          }
+          this.randomCategory = randomCategory;
         }
-        this.randomCategory = randomCategory;
+        for (let i = 0; i < this.gameWords.length; i++) {
+          this.englishGameWords.push(this.gameWords[i].origin);
+          this.dataSource.push(this.gameWords[i]);
+        }
+        this.pointsPerWord = Math.floor(100 / this.gameWords.length);
+        this.isLoadingDone = true;
       }
-      for (let i = 0; i < this.gameWords.length; i++) {
-        this.englishGameWords.push(this.gameWords[i].origin);
-        this.dataSource.push(this.gameWords[i]);
-      }
-      this.pointsPerWord = Math.floor(100 / this.gameWords.length);
-    }
+    });
   }
 
   userGuess(isPartOfCategoryGuess: boolean) {
@@ -130,10 +136,12 @@ export class MessyWordsComponent implements OnInit {
         this.endGame = true;
         this.PointsService.add(
           new GamePlayed(
-            this.currentcategory?.id ?? 0,
+            this.currentcategory?.id ?? '0',
             3,
             new Date(),
-            this.totalPoints,0,0
+            this.totalPoints,
+            0,
+            0
           )
         );
       }
@@ -167,5 +175,21 @@ export class MessyWordsComponent implements OnInit {
   }
   gameTimeChange(eventTime: number) {
     this.gameTime = eventTime;
+  }
+  reportTimeLeft() {
+    this.timeLeft = this.gameTime;
+    if (this.gameTime == 0) {
+      this.endGame = true;
+      this.PointsService.add(
+        new GamePlayed(
+          this.currentcategory?.id ?? '0',
+          3,
+          new Date(),
+          this.totalPoints,
+          this.timeLeft,
+          this.SEC_PER_GAME - this.timeLeft
+        )
+      );
+    }
   }
 }

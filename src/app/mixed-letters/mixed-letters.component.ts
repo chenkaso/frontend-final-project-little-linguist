@@ -59,6 +59,7 @@ export class MixedLettersComponent implements OnInit {
   readonly SEC_PER_GAME = 180;
   gameTime = 0;
   timeLeft = 0;
+  isLoadingDone = false;
 
   constructor(
     private categoryservice: CategoriesService,
@@ -75,25 +76,29 @@ export class MixedLettersComponent implements OnInit {
     return charArray.join('');
   }
   ngOnInit(): void {
-    this.currentcategory = this.categoryservice.get(parseInt(this.id!));
-    if (this.currentcategory) {
-      const shuffledWords = [...this.currentcategory?.words].sort(
-        () => Math.random() - 0.5
-      );
-      this.gameWords = shuffledWords;
-    }
-    for (let i = 0; i < this.gameWords.length; i++) {
-      this.hebrewGameWords.push(this.gameWords[i].target);
-      this.englishGameWords.push(this.gameWords[i].origin);
-    }
-    this.pointsPerWord = Math.floor(100 / this.gameWords.length);
+    this.categoryservice.get(this.id!).then((result) => {
+      this.currentcategory = result;
 
-    const splitEnglish = this.englishGameWords[this.wordIndex].split('');
-    console.log(splitEnglish);
-    if (splitEnglish) {
-      this.wordLetters = this.shuffleString(splitEnglish.join(''));
-      console.log(this.wordLetters);
-    }
+      if (this.currentcategory) {
+        const shuffledWords = [...this.currentcategory?.words].sort(
+          () => Math.random() - 0.5
+        );
+        this.gameWords = shuffledWords;
+      }
+      for (let i = 0; i < this.gameWords.length; i++) {
+        this.hebrewGameWords.push(this.gameWords[i].target);
+        this.englishGameWords.push(this.gameWords[i].origin);
+      }
+      this.pointsPerWord = Math.floor(100 / this.gameWords.length);
+
+      const splitEnglish = this.englishGameWords[this.wordIndex].split('');
+      console.log(splitEnglish);
+      if (splitEnglish) {
+        this.wordLetters = this.shuffleString(splitEnglish.join(''));
+        console.log(this.wordLetters);
+      }
+      this.isLoadingDone = true;
+    });
   }
 
   userGuess() {
@@ -116,7 +121,7 @@ export class MixedLettersComponent implements OnInit {
       this.endGame = true;
       this.PointsService.add(
         new GamePlayed(
-          this.currentcategory?.id ?? 0,
+          this.currentcategory?.id ?? '0',
           4,
           new Date(),
           this.totalPoints,
@@ -152,7 +157,7 @@ export class MixedLettersComponent implements OnInit {
         this.showResult.push(false);
       }
     }
-  
+
     return trueGuess;
   }
 
@@ -165,6 +170,19 @@ export class MixedLettersComponent implements OnInit {
     this.gameTime = eventTime;
   }
   reportTimeLeft() {
-    this.timeLeft = this.gameTime
+    this.timeLeft = this.gameTime;
+    if (this.gameTime == 0) {
+      this.endGame = true;
+      this.PointsService.add(
+        new GamePlayed(
+          this.currentcategory?.id ?? '0',
+          4,
+          new Date(),
+          this.totalPoints,
+          this.timeLeft,
+          this.SEC_PER_GAME - this.timeLeft
+        )
+      );
+    }
   }
 }

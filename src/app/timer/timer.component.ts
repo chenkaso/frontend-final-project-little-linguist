@@ -21,7 +21,6 @@ export class TimerComponent implements OnInit, OnDestroy {
   @Input() totalTime = 0;
   currentTimeLeft = 0;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   timeLeftInterval?: any;
 
   timeLeft() {

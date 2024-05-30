@@ -19,7 +19,7 @@ export class GameCardComponent {
   currentCategory?: Category;
   constructor(private dialogService: MatDialog) {}
 
-  openGame(id?: number) {
+  openGame(id?: string) {
     const dialogRef = this.dialogService.open(GamesDialogComponent, {
       data: id,
     });

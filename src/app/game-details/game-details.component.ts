@@ -10,7 +10,7 @@ import { PointsService } from '../services/points.service';
   standalone: true,
   imports: [MatCardModule],
   templateUrl: './game-details.component.html',
-  styleUrl: './game-details.component.css'
+  styleUrl: './game-details.component.css',
 })
 export class GameDetailsComponent {
   pointsMap: GamePlayed[] = [];
@@ -20,7 +20,7 @@ export class GameDetailsComponent {
   categoriesPalyed: number[] = [];
   categoryCounter: number = 0;
   currentCategory?: number;
-  categoriesCounted: number[] = [];
+  categoriesCounted: string[] = [];
   categoriesNotPalyed: number = 0;
   allCategories: Category[] = [];
 
@@ -29,30 +29,34 @@ export class GameDetailsComponent {
     private categoryservice: CategoriesService
   ) {}
   ngOnInit(): void {
-    this.pointsMap = this.PointsService.list();
-    this.allCategories = this.categoryservice.list();
+    this.categoryservice.list().then((result: Category[]) => {
+      this.allCategories = result;
+      this.PointsService.list().then((result: GamePlayed[]) => {
+        this.pointsMap = result;
+        for (let i = 0; i < this.pointsMap.length; i++) {
+          this.playerTotalPoints.push(this.pointsMap[i].points);
+          this.sumTotalPoints = this.sumTotalPoints + this.playerTotalPoints[i];
+          this.gameCounter = this.pointsMap.length;
 
-    for (let i = 0; i < this.pointsMap.length; i++) {
-      this.playerTotalPoints.push(this.pointsMap[i].points);
-      this.sumTotalPoints = this.sumTotalPoints + this.playerTotalPoints[i];
-      this.gameCounter = this.pointsMap.length;
-
-      const categoryId = this.pointsMap[i].categoryId;
-      let categoryAlreadyCounted = false;
-      for (let i = 0; i < this.categoriesCounted.length; i++) {
-        if (this.categoriesCounted[i] === categoryId) {
-          categoryAlreadyCounted = true;
-          break;
+          const categoryId = this.pointsMap[i].categoryId;
+          let categoryAlreadyCounted = false;
+          for (let i = 0; i < this.categoriesCounted.length; i++) {
+            if (this.categoriesCounted[i] === categoryId) {
+              categoryAlreadyCounted = true;
+              break;
+            }
+          }
+          if (!categoryAlreadyCounted) {
+            this.categoriesCounted.push(categoryId);
+            this.categoryCounter++;
+            this.categoriesNotPalyed =
+              this.allCategories.length - this.categoriesCounted.length;
+          }
         }
-      }
-      if (!categoryAlreadyCounted) {
-        this.categoriesCounted.push(categoryId);
-        this.categoryCounter++;
-        this.categoriesNotPalyed =
-          this.allCategories.length - this.categoriesCounted.length;
-      }
-    }
+      });
+    });
+    
+
     console.log(this.sumTotalPoints);
   }
 }
-
