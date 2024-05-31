@@ -180,6 +180,7 @@ export class MixedLettersComponent implements OnInit {
           this.SEC_PER_GAME - this.timeLeft
         )
       );
+      this.endGame = true;
     }
   }
   getTrueGuesses(): number {
