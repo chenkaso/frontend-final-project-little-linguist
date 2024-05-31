@@ -46,7 +46,7 @@
     <h1 class="h1">Mixed Letters - {{ currentcategory?.name }} - Results</h1>
     <div>Grade: {{ totalPoints }}</div>
 
-    <div>You classified {{ trueGuess }} out of 6 words correctly</div>
+    <div>You classified {{ getTrueGuesses() }} out of {{result.length}} words correctly</div>
     <table mat-table [dataSource]="gameWords" class="mat-elevation-z8">
       <ng-container matColumnDef="origin">
         <th mat-header-cell *matHeaderCellDef>Origin</th>

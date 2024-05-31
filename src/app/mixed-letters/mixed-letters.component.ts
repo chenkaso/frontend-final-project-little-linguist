@@ -146,21 +146,15 @@ export class MixedLettersComponent implements OnInit {
     }
   }
 
-  countTrueGuess() {
-    let trueGuess = 0;
-    this.showResult = [];
-    for (let i = 0; i < this.englishGameWords.length; i++) {
-      if (this.selected === this.englishGameWords[i]) {
-        this.showResult.push(true);
-        trueGuess++;
-      } else {
-        this.showResult.push(false);
+  getTrueGuesses(): number {
+    let count = 0;
+    for (let i = 0; i < this.result.length; i++) {
+      if (this.result[i]) {
+        count++;
       }
     }
-
-    return trueGuess;
+    return count;
   }
-
   progressBar() {
     console.log(this.gameWords.length);
     console.log((100 / this.gameWords.length) * this.wordIndex);
@@ -172,7 +166,6 @@ export class MixedLettersComponent implements OnInit {
   reportTimeLeft() {
     this.timeLeft = this.gameTime;
     if (this.gameTime == 0) {
-      this.endGame = true;
       this.PointsService.add(
         new GamePlayed(
           this.currentcategory?.id ?? '0',
@@ -183,6 +176,7 @@ export class MixedLettersComponent implements OnInit {
           this.SEC_PER_GAME - this.timeLeft
         )
       );
+      this.endGame = true;
     }
   }
 }
