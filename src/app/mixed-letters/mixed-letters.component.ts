@@ -146,21 +146,15 @@ export class MixedLettersComponent implements OnInit {
     }
   }
 
-  countTrueGuess() {
-    let trueGuess = 0;
-    this.showResult = [];
-    for (let i = 0; i < this.englishGameWords.length; i++) {
-      if (this.selected === this.englishGameWords[i]) {
-        this.showResult.push(true);
-        trueGuess++;
-      } else {
-        this.showResult.push(false);
+  getTrueGuesses(): number {
+    let count = 0;
+    for (let i = 0; i < this.result.length; i++) {
+      if (this.result[i]) {
+        count++;
       }
     }
-
-    return trueGuess;
+    return count;
   }
-
   progressBar() {
     return (100 / this.gameWords.length) * this.wordIndex;
   }
