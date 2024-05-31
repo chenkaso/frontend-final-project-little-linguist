@@ -1,4 +1,5 @@
-<div *ngIf="!isLoadingDone">Loading</div>
+<app-exit></app-exit>
+<div *ngIf="!isLoadingDone" class="load">Loading...</div>
 <div *ngIf="isLoadingDone">
   <div class="points">
     {{ totalPoints }}<mat-icon>monetization_on</mat-icon>
@@ -35,7 +36,10 @@
   <div *ngIf="endGame">
     <h1 class="h1">Word Sorter - {{ currentcategory?.name }} - Results</h1>
     <div>Grade:{{ totalPoints }}</div>
-    <div>You classified {{ countTrueGuess() }} out of 6 words correctly</div>
+    <div>
+      You classified {{ countTrueGuess() }} out of {{ result.length }} words
+      correctly
+    </div>
     <table mat-table [dataSource]="gameWords" class="mat-elevation-z8">
       <ng-container matColumnDef="origin">
         <th mat-header-cell *matHeaderCellDef>Origin</th>

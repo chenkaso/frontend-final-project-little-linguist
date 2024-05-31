@@ -12,3 +12,10 @@
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+.load {
+  text-align: center;
+  font-family: "Times New Roman", Times, serif;
+  padding: 100px;
+  margin: 100px;
+  font-size: 50px;
+}

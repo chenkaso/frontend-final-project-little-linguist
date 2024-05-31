@@ -11,6 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { Category } from '../../shared/model/category';
 import { GamePlayed } from '../../shared/model/gameplayed';
 import { TranslatedWord } from '../../shared/model/translated-word';
+import { ExitComponent } from '../exit/exit.component';
 import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
 import { CategoriesService } from '../services/categories.service';
 import { PointsService } from '../services/points.service';
@@ -20,6 +21,8 @@ import { TimerComponent } from '../timer/timer.component';
 @Component({
   selector: 'app-mixed-letters',
   standalone: true,
+  templateUrl: './mixed-letters.component.html',
+  styleUrls: ['./mixed-letters.component.css'],
   imports: [
     FormsModule,
     MatInputModule,
@@ -31,13 +34,11 @@ import { TimerComponent } from '../timer/timer.component';
     MatTableModule,
     MatProgressBarModule,
     TimerComponent,
+    ExitComponent,
   ],
-  templateUrl: './mixed-letters.component.html',
-  styleUrl: './mixed-letters.component.css',
 })
 export class MixedLettersComponent implements OnInit {
-  @Input()
-  id?: string;
+  @Input() id?: string;
   endGame = false;
   currentcategory?: Category;
   gameWords: TranslatedWord[] = [];
@@ -67,6 +68,7 @@ export class MixedLettersComponent implements OnInit {
     private FailureDialogService: MatDialog,
     private PointsService: PointsService
   ) {}
+
   shuffleString(str: string): string {
     const charArray = str.split('');
     for (let i = charArray.length - 1; i > 0; i--) {
@@ -75,6 +77,7 @@ export class MixedLettersComponent implements OnInit {
     }
     return charArray.join('');
   }
+
   ngOnInit(): void {
     this.categoryservice.get(this.id!).then((result) => {
       this.currentcategory = result;
@@ -92,19 +95,17 @@ export class MixedLettersComponent implements OnInit {
       this.pointsPerWord = Math.floor(100 / this.gameWords.length);
 
       const splitEnglish = this.englishGameWords[this.wordIndex].split('');
-      console.log(splitEnglish);
       if (splitEnglish) {
         this.wordLetters = this.shuffleString(splitEnglish.join(''));
-        console.log(this.wordLetters);
       }
       this.isLoadingDone = true;
     });
   }
 
   userGuess() {
-    const originlWord = this.englishGameWords[this.wordIndex];
+    const originalWord = this.englishGameWords[this.wordIndex];
 
-    if (this.selected == originlWord && !this.endGame) {
+    if (this.selected === originalWord && !this.endGame) {
       this.result.push(true);
       const dialogRef = this.SuccessDialogService.open(SuccessDialogComponent);
       dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
@@ -115,9 +116,10 @@ export class MixedLettersComponent implements OnInit {
       dialogRef.afterClosed().subscribe(() => this.afterDialogClose());
     }
   }
+
   afterDialogClose() {
     this.wordIndex += 1;
-    if (this.wordIndex == this.gameWords.length) {
+    if (this.wordIndex === this.gameWords.length) {
       this.endGame = true;
       this.PointsService.add(
         new GamePlayed(
@@ -125,16 +127,14 @@ export class MixedLettersComponent implements OnInit {
           4,
           new Date(),
           this.totalPoints,
-          0,
-          0
+          this.timeLeft,
+          this.SEC_PER_GAME - this.timeLeft
         )
       );
     } else {
       const splitEnglish = this.englishGameWords[this.wordIndex].split('');
-      console.log(splitEnglish);
       if (splitEnglish) {
         this.wordLetters = this.shuffleString(splitEnglish.join(''));
-        console.log(this.wordLetters);
       }
       this.selected = '';
     }
@@ -162,16 +162,19 @@ export class MixedLettersComponent implements OnInit {
   }
 
   progressBar() {
-    console.log(this.gameWords.length);
-    console.log((100 / this.gameWords.length) * this.wordIndex);
     return (100 / this.gameWords.length) * this.wordIndex;
   }
+
   gameTimeChange(eventTime: number) {
     this.gameTime = eventTime;
+    if (this.gameTime === 0) {
+      this.reportTimeLeft();
+    }
   }
+
   reportTimeLeft() {
     this.timeLeft = this.gameTime;
-    if (this.gameTime == 0) {
+    if (this.timeLeft === 0) {
       this.endGame = true;
       this.PointsService.add(
         new GamePlayed(
@@ -184,5 +187,14 @@ export class MixedLettersComponent implements OnInit {
         )
       );
     }
+  }
+  getTrueGuesses(): number {
+    let count = 0;
+    for (let i = 0; i < this.result.length; i++) {
+      if (this.result[i]) {
+        count++;
+      }
+    }
+    return count;
   }
 }

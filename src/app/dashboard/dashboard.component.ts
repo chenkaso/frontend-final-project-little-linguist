@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Category } from '../../shared/model/category';
 import { GamePlayed } from '../../shared/model/gameplayed';
@@ -10,7 +11,7 @@ import { PointsService } from '../services/points.service';
   standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
-  imports: [GameDetailsComponent],
+  imports: [GameDetailsComponent, CommonModule],
 })
 export class DashboardComponent implements OnInit {
   pointsMap: GamePlayed[] = [];
@@ -23,6 +24,7 @@ export class DashboardComponent implements OnInit {
   categoriesCounted: string[] = [];
   categoriesNotPalyed: number = 0;
   allCategories: Category[] = [];
+  
 
   constructor(
     private PointsService: PointsService,

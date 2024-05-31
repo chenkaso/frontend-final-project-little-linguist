@@ -13,20 +13,22 @@ import { CategoriesService } from '../services/categories.service';
 import { PointsService } from '../services/points.service';
 import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
 import { TimerComponent } from '../timer/timer.component';
+import { ExitComponent } from "../exit/exit.component";
 
 @Component({
-  selector: 'app-messy-words',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTableModule,
-    MatProgressBarModule,
-    TimerComponent,
-  ],
-  templateUrl: './messy-words.component.html',
-  styleUrl: './messy-words.component.css',
+    selector: 'app-messy-words',
+    standalone: true,
+    templateUrl: './messy-words.component.html',
+    styleUrls: ['./messy-words.component.css'],
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+        MatProgressBarModule,
+        TimerComponent,
+        ExitComponent
+    ]
 })
 export class MessyWordsComponent implements OnInit {
   @Input()
@@ -173,12 +175,10 @@ export class MessyWordsComponent implements OnInit {
       ) > -1;
     return rightAnswer;
   }
+
   gameTimeChange(eventTime: number) {
     this.gameTime = eventTime;
-  }
-  reportTimeLeft() {
-    this.timeLeft = this.gameTime;
-    if (this.gameTime == 0) {
+    if (this.gameTime === 0) {
       this.endGame = true;
       this.PointsService.add(
         new GamePlayed(
@@ -186,10 +186,11 @@ export class MessyWordsComponent implements OnInit {
           3,
           new Date(),
           this.totalPoints,
-          this.timeLeft,
-          this.SEC_PER_GAME - this.timeLeft
+          0,
+          this.SEC_PER_GAME
         )
       );
     }
   }
+  
 }
