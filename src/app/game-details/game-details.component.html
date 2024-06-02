@@ -1,43 +1,45 @@
 <div *ngIf="!isLoadingDone" class="load">Loading...</div>
 <div *ngIf="isLoadingDone">
-  <mat-card class="details-card">
-    <mat-card-title> Points: </mat-card-title>
-    <mat-card-content>
-      {{ sumTotalPoints }}
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="details-card">
-    <mat-card-title> Games: </mat-card-title>
-    <mat-card-content>
-      {{ gameCounter }}
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="details-card">
-    <mat-card-title> Categories You Played: </mat-card-title>
-    <mat-card-content>
-      {{ categoriesCounted.length }}
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="details-card">
-    <mat-card-title> Categories You Didn't Play: </mat-card-title>
-    <mat-card-content>
-      {{ categoriesNotPalyed }}
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="details-card">
-    <mat-card-title> Avarege Second Played: </mat-card-title>
-    <mat-card-content>
-      {{ avgGameSec }}
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="details-card">
-    <mat-card-title> Total Second Played: </mat-card-title>
-    <mat-card-content>
-      {{ totalGameSec }}
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="details-card">
-    <mat-card-title> Percentage Of Games Finished On Time: </mat-card-title>
-    <mat-card-content> {{ gamesEndInTime }}% </mat-card-content>
-  </mat-card>
+  <div class="cards-container">
+    <mat-card class="details-card">
+      <mat-card-title> Points: </mat-card-title>
+      <mat-card-content>
+        {{ sumTotalPoints }}
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="details-card">
+      <mat-card-title> Games: </mat-card-title>
+      <mat-card-content>
+        {{ gameCounter }}
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="details-card">
+      <mat-card-title> Categories You Played: </mat-card-title>
+      <mat-card-content>
+        {{ categoryCounter }}
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="details-card">
+      <mat-card-title> Categories You Didn't Play: </mat-card-title>
+      <mat-card-content>
+        {{ categoriesNotPlayed }}
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="details-card">
+      <mat-card-title> Average Seconds Played: </mat-card-title>
+      <mat-card-content>
+        {{ avgGameSec }}
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="details-card">
+      <mat-card-title> Total Seconds Played: </mat-card-title>
+      <mat-card-content>
+        {{ totalGameSec }}
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="details-card">
+      <mat-card-title> Percentage Of Games Finished On Time: </mat-card-title>
+      <mat-card-content> {{ gamesEndInTime }}% </mat-card-content>
+    </mat-card>
+  </div>
 </div>

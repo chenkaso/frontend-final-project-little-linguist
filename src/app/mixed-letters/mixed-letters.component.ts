@@ -183,13 +183,4 @@ export class MixedLettersComponent implements OnInit {
       this.endGame = true;
     }
   }
-  getTrueGuesses(): number {
-    let count = 0;
-    for (let i = 0; i < this.result.length; i++) {
-      if (this.result[i]) {
-        count++;
-      }
-    }
-    return count;
-  }
 }

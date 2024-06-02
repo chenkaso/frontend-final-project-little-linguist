@@ -24,11 +24,8 @@ export class DashboardComponent implements OnInit {
   categoriesCounted: string[] = [];
   categoriesNotPalyed: number = 0;
   allCategories: Category[] = [];
-<<<<<<< HEAD
+  avgTotalGame: number = 0;
   
-=======
-  avgTotalGame:number=0;
->>>>>>> 0c0c825b678e7aff64d68f691054c24d0131f6f4
 
   constructor(
     private PointsService: PointsService,
@@ -58,7 +55,6 @@ export class DashboardComponent implements OnInit {
             this.categoriesNotPalyed =
               this.allCategories.length - this.categoriesCounted.length;
           }
-          
         }
       });
     });

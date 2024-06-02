@@ -8,27 +8,27 @@ import { MatTableModule } from '@angular/material/table';
 import { Category } from '../../shared/model/category';
 import { GamePlayed } from '../../shared/model/gameplayed';
 import { TranslatedWord } from '../../shared/model/translated-word';
+import { ExitComponent } from '../exit/exit.component';
 import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
 import { CategoriesService } from '../services/categories.service';
 import { PointsService } from '../services/points.service';
 import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
 import { TimerComponent } from '../timer/timer.component';
-import { ExitComponent } from "../exit/exit.component";
 
 @Component({
-    selector: 'app-messy-words',
-    standalone: true,
-    templateUrl: './messy-words.component.html',
-    styleUrls: ['./messy-words.component.css'],
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTableModule,
-        MatProgressBarModule,
-        TimerComponent,
-        ExitComponent
-    ]
+  selector: 'app-messy-words',
+  standalone: true,
+  templateUrl: './messy-words.component.html',
+  styleUrls: ['./messy-words.component.css'],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
+    MatProgressBarModule,
+    TimerComponent,
+    ExitComponent,
+  ],
 })
 export class MessyWordsComponent implements OnInit {
   @Input()
@@ -142,8 +142,8 @@ export class MessyWordsComponent implements OnInit {
             3,
             new Date(),
             this.totalPoints,
-            0,
-            0
+            this.SEC_PER_GAME - this.gameTime,
+            this.gameTime
           )
         );
       }
@@ -186,11 +186,10 @@ export class MessyWordsComponent implements OnInit {
           3,
           new Date(),
           this.totalPoints,
-          0,
-          this.SEC_PER_GAME
+          this.SEC_PER_GAME - this.gameTime,
+          this.gameTime
         )
       );
     }
   }
-  
 }
