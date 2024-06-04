@@ -23,14 +23,13 @@ export const pointsConverter = {
   ) => {
     const data = snapshot.data(options);
     const game = new GamePlayed(
-      snapshot.id,
       data['categoryId'],
       data['gameId'],
+      data['date'].toDate(),
       data['points'],
       data['secondsLeftInGame'],
       data['secondsPlayed']
     );
-    game.date = data['date'].toDate();
     return game;
   },
 };
